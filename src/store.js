@@ -20,12 +20,20 @@ class Skater {
 		if (asRole)
 			this.timeAsRole = Date.now()
 	}
+	sendToTheBox () {
+		this.penalties++
+	}
+	resetPenalties () {
+		this.penalties = 0
+	}
 	reset () {
+		this.penalties = 0
 		this.jams = 0
 		this.time = Date.now()
 		this.timeAsRole = Date.now()
 	}
 	randomize () {
+		this.penalties = Math.round(7 * Math.random())
 		this.jams = Math.round(10 * Math.random())
 		this.time = Date.now() - Math.round(100000 * Math.random())
 		this.timeAsRole = Date.now() - Math.round(100000 * Math.random())
