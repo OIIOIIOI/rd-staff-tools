@@ -9,9 +9,11 @@ export const Position = {
 }
 
 class Skater {
-	constructor (name, position) {
+	constructor (name, number, position) {
 		this.name = name
+		this.number = number
 		this.position = position
+		this.active = false
 		this.reset()
 	}
 	pick (asRole) {
@@ -19,6 +21,9 @@ class Skater {
 		this.time = Date.now()
 		if (asRole)
 			this.timeAsRole = Date.now()
+	}
+	minusOne () {
+		this.jams--
 	}
 	sendToTheBox () {
 		this.penalties++
@@ -31,6 +36,7 @@ class Skater {
 		this.jams = 0
 		this.time = Date.now()
 		this.timeAsRole = Date.now()
+		this.active = false
 	}
 	randomize () {
 		this.penalties = Math.round(7 * Math.random())
@@ -45,21 +51,21 @@ export const useMainStore = defineStore('main', {
 		return {
 			skaters: [
 				// Jammers
-				new Skater("Madame Moustache", Position.Jammer),
-				new Skater("Progr'Hammer", Position.Jammer),
-				new Skater("Pathé", Position.Jammer),
-				new Skater("Chaton", Position.Jammer),
+				new Skater("Madame Moustache", "75", Position.Jammer),
+				new Skater("Progr'Hammer", "26", Position.Jammer),
+				new Skater("Pathé", "215", Position.Jammer),
+				new Skater("Chaton", "126", Position.Jammer),
 				// Blockers
-				new Skater("Wild Purple", Position.Blocker),
-				new Skater("Tchou'Baka", Position.Blocker),
-				new Skater("Ellen Ripe-les", Position.Blocker),
-				new Skater("Diplogrokus", Position.Blocker),
-				new Skater("L'Amère Michel", Position.Blocker),
+				new Skater("Wild Purple", "21", Position.Blocker),
+				new Skater("Tchou'Baka", "82", Position.Blocker),
+				new Skater("Ellen Ripe-les", "99", Position.Blocker),
+				new Skater("Diplogrokus", "8", Position.Blocker),
+				new Skater("L'Amère Michel", "19", Position.Blocker),
 				// Pivots
-				new Skater("La Grosse Loutre", Position.Pivot),
-				new Skater("La Camibale", Position.Pivot),
-				new Skater("Glory Owl", Position.Pivot),
-				new Skater("BoobZilla", Position.Pivot),
+				new Skater("La Grosse Loutre", "171", Position.Pivot),
+				new Skater("La Camibale", "817", Position.Pivot),
+				new Skater("Glory Owl", "87", Position.Pivot),
+				new Skater("BoobZilla", "95", Position.Pivot),
 			],
 		}
 	},
@@ -70,7 +76,7 @@ export const useMainStore = defineStore('main', {
 		allBlockers: (state) => _collection.filter(state.skaters, function(s) { return s.position !== Position.Jammer; }),
 	},
 	actions: {
-		resetJams() {
+		resetAll() {
 			_collection.forEach(this.skaters, function (s) { s.reset() })
 		},
 		randomizeJams() {

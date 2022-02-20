@@ -61,7 +61,7 @@ export default {
 	},
 	methods: {
 		...mapActions(useMainStore, [
-			'resetJams',
+			'resetAll',
 			'randomizeJams',
 			'getNextJammer',
 			'getNextPivot',
@@ -79,7 +79,7 @@ export default {
 		},
 		clearLines () {
 			this.lines = []
-			this.mainStore.resetJams()
+			this.mainStore.resetAll()
 		}
 	},
 	mounted() {

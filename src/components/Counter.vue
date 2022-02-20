@@ -3,30 +3,98 @@ import CounterName from './CounterName.vue'
 </script>
 
 <template>
-	<header class="mb-4">
-		<button>GO</button>
-	</header>
-	<main class="grid grid-cols-1 gap-2">
+	<main class="grid grid-cols-3 gap-2">
 		<template v-for="i in 4">
-			<counter-name :skater="mainStore.jammers[i-1]"></counter-name>
-			<counter-name :skater="mainStore.pivots[i-1]"></counter-name>
+			<counter-name :skater="mainStore.jammers[i-1]" @toggled="(s) => skaterToggled(s)"></counter-name>
+			<counter-name :skater="mainStore.pivots[i-1]" @toggled="(s) => skaterToggled(s)"></counter-name>
+			<counter-name :skater="mainStore.blockers[i-1]" @toggled="(s) => skaterToggled(s)"></counter-name>
 		</template>
-		<counter-name v-for="s in mainStore.blockers" :skater="s"></counter-name>
+		<div class="col-span-2"></div>
+		<counter-name :skater="mainStore.blockers[4]" @toggled="(s) => skaterToggled(s)"></counter-name>
+<!--		<counter-name v-for="s in mainStore.blockers" :skater="s"></counter-name>-->
 	</main>
+	<footer class="grid grid-cols-8 gap-2 mt-4">
+		<button @dblclick="reset()" class="btn-reset">X</button>
+		<button @click="minusOne()" class="btn-minus">-1</button>
+		<button @click="clear()" class="btn-clear">CLEAR</button>
+		<button @click="sendToTheTrack()" class="btn-go">GO</button>
+	</footer>
 </template>
 
 <script>
 import { useMainStore } from '../store.js'
 import { mapStores, mapActions } from 'pinia'
+import _array from 'lodash/array'
+import _collection from 'lodash/collection'
 
 export default {
 	name: "Counter",
+	data() {
+		return {
+			selected: [],
+		}
+	},
 	computed: {
 		...mapStores(useMainStore),
+	},
+	methods: {
+		...mapActions(useMainStore, [
+			'resetAll',
+		]),
+		reset () {
+			this.mainStore.resetAll()
+			this.selected = []
+		},
+		clear () {
+			_collection.forEach(this.selected, function(s) {
+				s.active = false
+			})
+			this.selected = []
+		},
+		sendToTheTrack () {
+			if (this.selected.length === 0)
+				return
+			
+			_collection.forEach(this.selected, function(s) {
+				s.pick()
+				s.active = false
+			})
+			this.selected = []
+		},
+		minusOne () {
+			if (this.selected.length === 0)
+				return
+			
+			_collection.forEach(this.selected, function(s) {
+				s.minusOne()
+				s.active = false
+			})
+			this.selected = []
+		},
+		skaterToggled (s) {
+			let i = _collection.find(this.selected, ['number', s.number])
+			if (typeof i === "undefined")
+				this.selected.push(s)
+			else
+				_array.remove(this.selected, (a) => { return a.number === s.number })
+		},
 	},
 }
 </script>
 
 <style scoped>
-
+button {
+	@apply w-full border-0 bg-zinc-800 py-6 col-span-1;
+}
+.btn-reset {
+	@apply bg-red-900;
+}
+.btn-minus {
+}
+.btn-clear {
+	@apply col-span-2 bg-zinc-700;
+}
+.btn-go {
+	@apply col-span-4 font-bold bg-zinc-300 text-zinc-800;
+}
 </style>

@@ -1,13 +1,14 @@
 <template>
 	<div class="name-card" :class="classes">
+		<div class="name" @click="toggleActive">
+			<p>{{ skater.number }}</p>
+			<p>{{ skater.name }}</p>
+		</div>
 		<div class="p-count" @click="skater.sendToTheBox()" @dblclick="skater.resetPenalties()">
 			<p>{{ skater.penalties }}</p>
 		</div>
 		<div class="j-count">
 			<p>{{ skater.jams }}</p>
-		</div>
-		<div class="name" @click="toggleActive">
-			<p>{{ skater.name }}</p>
 		</div>
 	</div>
 </template>
@@ -15,32 +16,36 @@
 <script>
 export default {
 	name: "CounterName",
+	emits: ['toggled'],
 	props: {
 		skater: Object,
 		startActive: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 	},
 	data() {
 		return {
-			active: false,
+			// active: this.startActive,
 		}
 	},
 	computed: {
 		classes () {
 			let c = []
-			if (this.active) c.push('active')
+			if (this.skater.active)
+				c.push('active')
 			c.push(this.skater.position.toLowerCase())
 			return c.join(' ');
 		},
 	},
 	mounted () {
-		this.active = this.startActive
+		// this.active = this.startActive
 	},
 	methods: {
 		toggleActive () {
-			this.active = !this.active
+			this.skater.active = !this.skater.active
+			// this.active = !this.active
+			this.$emit('toggled', this.skater)
 		}
 	}
 }
@@ -48,22 +53,28 @@ export default {
 
 <style scoped>
 div.name-card {
-	@apply h-7 grid grid-cols-6 items-center cursor-pointer select-none;
+	@apply grid grid-cols-2 text-center items-center cursor-pointer select-none;
 	@apply bg-zinc-800 text-zinc-300;
 	
-	> div {
-		@apply h-full flex justify-center items-center text-center;
+	> .name {
+		@apply col-span-2 py-2;
+		
+		p:first-of-type {
+			@apply text-xl font-bold mb-1;
+		}
+		p:last-of-type {
+			@apply text-sm;
+		}
+	}
+	> .p-count,
+	> .j-count {
+		@apply col-span-1 self-end py-1;
 	}
 	> .p-count {
-		@apply col-span-1;
 		@apply bg-red-900 text-red-200;
 	}
 	> .j-count {
-		@apply col-span-1;
 		@apply bg-zinc-700;
-	}
-	> .name {
-		@apply col-span-4 text-sm;
 	}
 	&.jammer .name {
 		@apply text-teal-400;
