@@ -5,11 +5,12 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview --port 5050",
-    "tailwind-watch": "npx tailwindcss -i ./src/assets/base.css -o ./src/style.css --watch",
-    "tailwind-minify": "npx tailwindcss -i ./src/assets/base.css -o ./src/style.css --minify"
+    "tailwind-watch": "npx tailwindcss -i ./src/assets/base.pcss -o ./src/style.css --watch",
+    "tailwind-minify": "npx tailwindcss -i ./src/assets/base.pcss -o ./src/style.css --minify"
   },
   "dependencies": {
     "lodash": "^4.17.21",
+    "marked": "^4.0.12",
     "pinia": "^2.0.11",
     "vue": "^3.2.29"
   },
@@ -17,6 +18,7 @@
     "@vitejs/plugin-vue": "^2.1.0",
     "autoprefixer": "^10.4.2",
     "postcss": "^8.4.6",
+    "postcss-import": "^14.0.2",
     "tailwindcss": "^3.0.23",
     "vite": "^2.7.13"
   }

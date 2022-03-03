@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+ul, ol {
+	/*@apply pl-4;*/
+
+	li {
+		@apply my-1;
+	}
+}
+ul {
+	@apply list-disc list-inside;
+}
+ol {
+	counter-reset: my-counter;
+
+	li {
+		counter-increment: my-counter;
+
+		&::before {
+			content: counter(my-counter)'.';
+			@apply font-bold text-zinc-100 mr-2;
+		}
+	}
+}
