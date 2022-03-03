@@ -1,5 +1,6 @@
 <script setup>
 import CounterName from './CounterName.vue'
+import ListName from './ListName.vue'
 </script>
 
 <template>
@@ -19,6 +20,12 @@ import CounterName from './CounterName.vue'
 		<button @click="clear()" class="btn-clear">CLEAR</button>
 		<button @click="sendToTheTrack()" class="btn-go">GO</button>
 	</footer>
+	<ul class="mt-4">
+		<li v-for="(j, i) in reversedJams" class="grid grid-cols-6">
+			<div>{{ jams.length - i }}</div>
+			<list-name v-for="s in j" :skater="s"></list-name>
+		</li>
+	</ul>
 </template>
 
 <script>
@@ -32,10 +39,14 @@ export default {
 	data() {
 		return {
 			selected: [],
+			jams: [],
 		}
 	},
 	computed: {
 		...mapStores(useMainStore),
+		reversedJams () {
+			return [...this.jams].reverse()
+		},
 	},
 	methods: {
 		...mapActions(useMainStore, [
@@ -44,6 +55,7 @@ export default {
 		reset () {
 			this.mainStore.resetAll()
 			this.selected = []
+			this.jams = []
 		},
 		clear () {
 			_collection.forEach(this.selected, function(s) {
@@ -59,6 +71,7 @@ export default {
 				s.pick()
 				s.active = false
 			})
+			this.jams.push(this.selected)
 			this.selected = []
 		},
 		minusOne () {
