@@ -5,10 +5,12 @@
 <script>
 import Builder from "./components/Builder.vue";
 import Counter from "./components/Counter.vue";
+import Rules from "./components/Rules.vue";
 
 const routes = {
 	'/': Builder,
-	'/counter': Counter
+	'/counter': Counter,
+	'/rules': Rules,
 }
 
 export default {
