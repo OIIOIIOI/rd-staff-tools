@@ -101,6 +101,7 @@ export default {
 			console.log(this.selectedRole)
 		},
 		applyChangeForRole () {
+			console.log(this.selectedSkaterForRole, this.selectedRole)
 			let s = this.mainStore.getByName(this.selectedSkaterForRole)
 			s.isHead = this.selectedRole
 		},
