@@ -20,7 +20,7 @@ import {Position} from "../store";
 				<option :value="Position.Out">{{ Position.Out }}</option>
 			</select>
 		</div>
-		<button @click="applyChange" class="mt-4 font-bold !bg-zinc-300 !text-zinc-800" :disabled="!isValidChoice">APPLY</button>
+		<button @click="applyChange" class="mt-4 font-bold !bg-zinc-300 !text-zinc-800" :disabled="!selectedSkaterFull">APPLY</button>
 		<p v-if="selectedSkaterFull" class="mt-3 text-center">{{ selectedSkaterFull.name }} <span class="italic text-zinc-400">({{ selectedSkaterFull.position }})</span></p>
 		<p v-if="selectedSkaterFull" class="text-center"><span class="italic text-zinc-400">now becomes</span> {{ selectedPosition }}</p>
 	</template>
@@ -30,18 +30,18 @@ import {Position} from "../store";
 	<template v-if="selectedSkaterForRole">
 		<h1 class="text-xl font-bold text-teal-400">Roles</h1>
 		<div class="mt-2 grid grid-cols-9 gap-2 items-center">
-			<select ref="skaterForRoleSelect">
+			<select ref="skaterForRoleSelect" @change="onSkaterForRoleChange">
 				<option v-for="skater in allSkaters" :value="skater.name">{{ skater.name }}</option>
 			</select>
 			<div class="col-span-1 text-center"><span class="inline-block leading-none text-xl text-teal-400">></span></div>
-			<select ref="roleSelect">
+			<select ref="roleSelect" @change="onRoleChange">
 				<option value="true">Head</option>
 				<option value="false">Not head</option>
 			</select>
 		</div>
-		<button @click="applyChangeForRole" class="mt-4 font-bold !bg-zinc-300 !text-zinc-800" :disabled="!isValidChoiceForRole">APPLY</button>
-		<p v-if="selectedSkaterForRole" class="mt-3 text-center">{{ selectedSkaterForRoleFull.name }} <span class="italic text-zinc-400">({{ selectedSkaterForRoleFull.isHead ? 'Head' : 'Not head' }})</span></p>
-		<p v-if="selectedSkaterForRole" class="text-center"><span class="italic text-zinc-400">now becomes</span> {{ selectedRole ? 'Head' : 'Not head' }}</p>
+		<button @click="applyChangeForRole" class="mt-4 font-bold !bg-zinc-300 !text-zinc-800" :disabled="!selectedSkaterForRoleFull">APPLY</button>
+		<p v-if="selectedSkaterForRoleFull" class="mt-3 text-center">{{ selectedSkaterForRoleFull.name }} <span class="italic text-zinc-400">({{ selectedSkaterForRoleFull.isHead ? 'Head' : 'Not head' }})</span></p>
+		<p v-if="selectedSkaterForRoleFull" class="text-center"><span class="italic text-zinc-400">now becomes</span> {{ selectedRole ? 'Head' : 'Not head' }}</p>
 	</template>
 </template>
 
