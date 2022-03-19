@@ -13,7 +13,7 @@ import {Position} from "../store";
 				<option v-for="skater in allSkaters" :value="skater.name">{{ skater.name }}</option>
 			</select>
 			<div class="col-span-1 text-center"><span class="inline-block leading-none text-xl text-teal-400">></span></div>
-			<select ref="positionSelect">
+			<select ref="positionSelect" @change="onPositionChange">
 				<option :value="Position.Jammer">{{ Position.Jammer }}</option>
 				<option :value="Position.Pivot">{{ Position.Pivot }}</option>
 				<option :value="Position.Blocker">{{ Position.Blocker }}</option>
