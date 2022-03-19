@@ -21,8 +21,8 @@ import {Position} from "../store";
 			</select>
 		</div>
 		<button @click="applyChange" class="mt-4 font-bold !bg-zinc-300 !text-zinc-800" :disabled="!isValidChoice">APPLY</button>
-<!--		<p v-if="selectedSkater" class="mt-3 text-center">{{ selectedSkater.name }} <span class="italic text-zinc-400">({{ selectedSkater.position }})</span></p>-->
-<!--		<p v-if="isValidChoice" class="text-center"><span class="italic text-zinc-400">now becomes</span> {{ selectedPosition }}</p>-->
+		<p v-if="selectedSkater" class="mt-3 text-center">{{ selectedSkater.name }} <span class="italic text-zinc-400">({{ selectedSkater.position }})</span></p>
+		<p v-if="selectedSkater" class="text-center"><span class="italic text-zinc-400">now becomes</span> {{ selectedPosition }}</p>
 	</template>
 	
 	<hr class="mt-8 mb-5 opacity-25">
@@ -65,12 +65,6 @@ export default {
 		...mapStores(useMainStore),
 		allSkaters () {
 			return this.mainStore.skaters
-		},
-		isValidChoice () {
-			return this.selectedSkater && this.selectedPosition !== ''
-		},
-		isValidChoiceForRole () {
-			return this.selectedSkaterForRole && this.selectedRole !== ''
 		},
 	},
 	mounted () {
