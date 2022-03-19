@@ -13,12 +13,12 @@ import {Position} from "../store";
 				<option v-for="skater in allSkaters" :value="skater.name">{{ skater.name }}</option>
 			</select>
 			<div class="col-span-1 text-center"><span class="inline-block leading-none text-xl text-teal-400">></span></div>
-			<!-- <select v-model="selectedPosition">
+			<select ref="positionSelect">
 				<option :value="Position.Jammer">{{ Position.Jammer }}</option>
 				<option :value="Position.Pivot">{{ Position.Pivot }}</option>
 				<option :value="Position.Blocker">{{ Position.Blocker }}</option>
 				<option :value="Position.Out">{{ Position.Out }}</option>
-			</select> -->
+			</select>
 		</div>
 		<button @click="applyChange" class="mt-4 font-bold !bg-zinc-300 !text-zinc-800" :disabled="!isValidChoice">APPLY</button>
 <!--		<p v-if="selectedSkater" class="mt-3 text-center">{{ selectedSkater.name }} <span class="italic text-zinc-400">({{ selectedSkater.position }})</span></p>-->
@@ -82,11 +82,15 @@ export default {
 			this.selectedSkater = this.$refs.skaterSelect.value
 			console.log(this.selectedSkater)
 		},
+		onPositionChange (e) {
+			this.selectedPosition = this.$refs.positionSelect.value
+			console.log(this.selectedPosition)
+		},
 		applyChange () {
-			console.log(this.selectedSkater)
+			console.log(this.selectedSkater, this.selectedPosition)
 			let s = this.mainStore.getByName(this.selectedSkater)
 			console.log(s.number)
-			//s.position = this.selectedPosition
+			s.position = this.selectedPosition
 		},
 		applyChangeForRole () {
 			let s = this.mainStore.getByName(this.selectedSkaterForRole)
