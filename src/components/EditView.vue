@@ -10,7 +10,7 @@ import {Position} from "../store";
 	<template v-if="selectedSkater">
 		<div class="mt-2 grid grid-cols-9 gap-2 items-center">
 			<select ref="skaterSelect" @change="onSkaterChange">
-				<option v-for="skater in allSkaters" :value="skater">{{ skater.name }}</option>
+				<option v-for="skater in allSkaters" :value="skater.name">{{ skater.name }}</option>
 			</select>
 			<div class="col-span-1 text-center"><span class="inline-block leading-none text-xl text-teal-400">></span></div>
 			<!-- <select v-model="selectedPosition">
@@ -80,11 +80,13 @@ export default {
 	methods: {
 		onSkaterChange (e) {
 			this.selectedSkater = this.$refs.skaterSelect.value
-			console.log(this.selectedSkater.name)
+			console.log(this.selectedSkater)
 		},
 		applyChange () {
+			console.log(this.selectedSkater)
 			let s = this.mainStore.getByName(this.selectedSkater)
-			s.position = this.selectedPosition
+			console.log(s.number)
+			//s.position = this.selectedPosition
 		},
 		applyChangeForRole () {
 			let s = this.mainStore.getByName(this.selectedSkaterForRole)
