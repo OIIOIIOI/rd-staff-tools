@@ -1,7 +1,7 @@
 <template>
 	<div class="name-card" :class="classes">
 		<div class="name" @click="toggleActive">
-			<p>{{ skater.number }}</p>
+			<p>{{ number }}</p>
 			<p>{{ skater.name }}</p>
 		</div>
 		<div class="p-count" @click="skater.sendToTheBox()" @dblclick="skater.resetPenalties()">
@@ -34,8 +34,16 @@ export default {
 			let c = []
 			if (this.skater.active)
 				c.push('active')
+			if (this.skater.ott === true)
+				c.push('opacity-25')
 			c.push(this.skater.position.toLowerCase())
 			return c.join(' ');
+		},
+		number () {
+			if (this.skater.isHead)
+				return `-${this.skater.number}-`
+			else
+				return this.skater.number
 		},
 	},
 	mounted () {
@@ -60,7 +68,7 @@ div.name-card {
 		@apply col-span-2 py-2;
 		
 		p:first-of-type {
-			@apply text-xl font-bold mb-1;
+			@apply text-xl font-bold leading-none;
 		}
 		p:last-of-type {
 			@apply text-sm;
@@ -68,7 +76,7 @@ div.name-card {
 	}
 	> .p-count,
 	> .j-count {
-		@apply col-span-1 self-end py-1;
+		@apply col-span-1 self-end;
 	}
 	> .p-count {
 		@apply bg-red-900 text-red-200;

@@ -1,7 +1,8 @@
 module.exports = {
+  mode: 'jit',
   content: [
     "./index.html",
-    "./src/**/*.{vue,js,ts,jsx,tsx}"
+    "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
   theme: {
     fontSize: {
@@ -11,7 +12,8 @@ module.exports = {
       'xl': ['1.5rem'],
       '2xl': ['2rem'],
     },
-    extend: {},
+    extend: {
+    },
   },
   plugins: [],
 }

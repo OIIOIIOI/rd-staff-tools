@@ -5,10 +5,12 @@
 <script>
 import Builder from "./components/Builder.vue";
 import Counter from "./components/Counter.vue";
+import EditView from "./components/EditView.vue";
 import Rules from "./components/Rules.vue";
 
 const routes = {
 	'/': Builder,
+	'/edit': EditView,
 	'/counter': Counter,
 	'/rules': Rules,
 }
@@ -38,6 +40,6 @@ html, body {
 	@apply bg-zinc-900 text-zinc-100;
 }
 #app {
-	@apply my-0 mx-auto p-4 sm:p-8 text-base;
+	@apply my-0 mx-auto p-2 sm:p-8 text-base;
 }
 </style>

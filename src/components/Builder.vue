@@ -1,6 +1,6 @@
 <script setup>
 import Name from './Name.vue'
-import ListName from './ListName.vue'
+import ListNameBuilder from './ListNameBuilder.vue'
 </script>
 
 <template>
@@ -15,15 +15,15 @@ import ListName from './ListName.vue'
 		<div class="grid grid-cols-3 gap-4">
 			<div>
 				<p class="font-bold text-lg mb-2">Jammeuses :</p>
-				<list-name v-for="s in mainStore.jammers" :skater="s"></list-name>
+				<list-name-builder v-for="s in mainStore.jammers" :skater="s"></list-name-builder>
 			</div>
 			<div>
 				<p class="font-bold text-lg mb-2">Pivots :</p>
-				<list-name v-for="s in mainStore.pivots" :skater="s"></list-name>
+				<list-name-builder v-for="s in mainStore.pivots" :skater="s"></list-name-builder>
 			</div>
 			<div>
 				<p class="font-bold text-lg mb-2">Bloqueuses :</p>
-				<list-name v-for="s in mainStore.blockers" :skater="s"></list-name>
+				<list-name-builder v-for="s in mainStore.blockers" :skater="s"></list-name-builder>
 			</div>
 		</div>
 		<hr class="my-4">
@@ -35,7 +35,7 @@ import ListName from './ListName.vue'
 			</div>
 			<div class="col-span-1">
 				<p class="font-bold text-lg mb-2">Liste d'attente :</p>
-				<list-name v-for="s in allBlockersOrdered" :skater="s"></list-name>
+				<list-name-builder v-for="s in allBlockersOrdered" :skater="s"></list-name-builder>
 			</div>
 		</div>
 	</main>
@@ -67,6 +67,7 @@ export default {
 			'getNextPivot',
 			'getFreePivot',
 			'getNextBlocker',
+			'getByName',
 		]),
 		addLine () {
 			this.lines.push([
@@ -83,6 +84,7 @@ export default {
 		}
 	},
 	mounted() {
+		// console.log(this.mainStore.getByName('Aline').number)
 		// this.mainStore.$reset()
 		// console.log(this.store.getJammers().map(function (s) { return s.name; }))
 		// console.log(this.store.getPivots().map(function (s) { return s.name; }))

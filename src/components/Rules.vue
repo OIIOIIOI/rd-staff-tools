@@ -17,7 +17,7 @@ export default {
 		};
 	},
 	async mounted() {
-		const res = await fetch("https://rdtom.herokuapp.com/api/rules")
+		const res = await fetch("https://rdtom.herokuapp.com/api/rules?locale=en")
 		this.rules = await res.json()
 	}
 }
