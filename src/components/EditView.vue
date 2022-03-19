@@ -35,8 +35,8 @@ import {Position} from "../store";
 			</select>
 			<div class="col-span-1 text-center"><span class="inline-block leading-none text-xl text-teal-400">></span></div>
 			<select ref="roleSelect" @change="onRoleChange">
-				<option value="true">Head</option>
-				<option value="false">Not head</option>
+				<option :value="true">Head</option>
+				<option :value="false">Not head</option>
 			</select>
 		</div>
 		<button @click="applyChangeForRole" class="mt-4 font-bold !bg-zinc-300 !text-zinc-800" :disabled="!selectedSkaterForRoleFull">APPLY</button>
