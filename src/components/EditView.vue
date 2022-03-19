@@ -80,28 +80,21 @@ export default {
 	methods: {
 		onSkaterChange (e) {
 			this.selectedSkater = this.$refs.skaterSelect.value
-			console.log(this.selectedSkater)
 		},
 		onPositionChange (e) {
 			this.selectedPosition = this.$refs.positionSelect.value
-			console.log(this.selectedPosition)
 		},
 		applyChange () {
-			console.log(this.selectedSkater, this.selectedPosition)
 			let s = this.mainStore.getByName(this.selectedSkater)
-			console.log(s.number)
 			s.position = this.selectedPosition
 		},
 		onSkaterForRoleChange (e) {
 			this.selectedSkaterForRole = this.$refs.skaterForRoleSelect.value
-			console.log(this.selectedSkaterForRole)
 		},
 		onRoleChange (e) {
 			this.selectedRole = this.$refs.roleSelect.value
-			console.log(this.selectedRole)
 		},
 		applyChangeForRole () {
-			console.log(this.selectedSkaterForRole, this.selectedRole)
 			let s = this.mainStore.getByName(this.selectedSkaterForRole)
 			s.isHead = this.selectedRole === 'head'
 		},
