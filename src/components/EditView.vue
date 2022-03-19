@@ -21,28 +21,28 @@ import {Position} from "../store";
 			</select>
 		</div>
 		<button @click="applyChange" class="mt-4 font-bold !bg-zinc-300 !text-zinc-800" :disabled="!isValidChoice">APPLY</button>
-		<p v-if="selectedSkater" class="mt-3 text-center">{{ selectedSkater.name }} <span class="italic text-zinc-400">({{ selectedSkater.position }})</span></p>
-		<p v-if="selectedSkater" class="text-center"><span class="italic text-zinc-400">now becomes</span> {{ selectedPosition }}</p>
+		<p v-if="selectedSkaterFull" class="mt-3 text-center">{{ selectedSkaterFull.name }} <span class="italic text-zinc-400">({{ selectedSkaterFull.position }})</span></p>
+		<p v-if="selectedSkaterFull" class="text-center"><span class="italic text-zinc-400">now becomes</span> {{ selectedPosition }}</p>
 	</template>
 	
 	<hr class="mt-8 mb-5 opacity-25">
 	
-	<!-- <template v-if="selectedSkaterForRole">
+	<template v-if="selectedSkaterForRole">
 		<h1 class="text-xl font-bold text-teal-400">Roles</h1>
 		<div class="mt-2 grid grid-cols-9 gap-2 items-center">
-			<select v-model="selectedSkaterForRole">
+			<select ref="skaterForRoleSelect">
 				<option v-for="skater in allSkaters" :value="skater.name">{{ skater.name }}</option>
 			</select>
 			<div class="col-span-1 text-center"><span class="inline-block leading-none text-xl text-teal-400">></span></div>
-			<select v-model="selectedRole">
+			<select ref="roleSelect">
 				<option value="true">Head</option>
 				<option value="false">Not head</option>
 			</select>
 		</div>
-		<button @click="applyChangeForRole" class="mt-4 font-bold !bg-zinc-300 !text-zinc-800" :disabled="!isValidChoiceForRole">APPLY</button> -->
-<!--		<p v-if="selectedSkaterForRole" class="mt-3 text-center">{{ selectedSkaterForRole.name }} <span class="italic text-zinc-400">({{ selectedSkaterForRole.isHead ? 'Head' : 'Not head' }})</span></p>-->
-<!--		<p v-if="isValidChoiceForRole" class="text-center"><span class="italic text-zinc-400">now becomes</span> {{ selectedRole ? 'Head' : 'Not head' }}</p>-->
-	<!-- </template> -->
+		<button @click="applyChangeForRole" class="mt-4 font-bold !bg-zinc-300 !text-zinc-800" :disabled="!isValidChoiceForRole">APPLY</button>
+		<p v-if="selectedSkaterForRole" class="mt-3 text-center">{{ selectedSkaterForRoleFull.name }} <span class="italic text-zinc-400">({{ selectedSkaterForRoleFull.isHead ? 'Head' : 'Not head' }})</span></p>
+		<p v-if="selectedSkaterForRole" class="text-center"><span class="italic text-zinc-400">now becomes</span> {{ selectedRole ? 'Head' : 'Not head' }}</p>
+	</template>
 </template>
 
 <script>
@@ -66,6 +66,12 @@ export default {
 		allSkaters () {
 			return this.mainStore.skaters
 		},
+		selectedSkaterFull () {
+			return this.mainStore.getByName(this.selectedSkater)
+		},
+		selectedSkaterForRoleFull () {
+			return this.mainStore.getByName(this.selectedSkaterForRole)
+		},
 	},
 	mounted () {
 		this.selectedSkater = this.mainStore.skaters[0].name
@@ -85,6 +91,14 @@ export default {
 			let s = this.mainStore.getByName(this.selectedSkater)
 			console.log(s.number)
 			s.position = this.selectedPosition
+		},
+		onSkaterForRoleChange (e) {
+			this.selectedSkaterForRole = this.$refs.skaterForRoleSelect.value
+			console.log(this.selectedSkaterForRole)
+		},
+		onRoleChange (e) {
+			this.selectedRole = this.$refs.roleSelect.value
+			console.log(this.selectedRole)
 		},
 		applyChangeForRole () {
 			let s = this.mainStore.getByName(this.selectedSkaterForRole)
