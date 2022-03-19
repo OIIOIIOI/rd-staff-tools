@@ -79,7 +79,7 @@ export default {
 	},
 	methods: {
 		onSkaterChange (e) {
-			console.log(e, this.$refs.skaterSelect);
+			console.log(this.$refs.skaterSelect.value);
 		},
 		applyChange () {
 			let s = this.mainStore.getByName(this.selectedSkater)
