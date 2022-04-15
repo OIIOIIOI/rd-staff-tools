@@ -9,20 +9,20 @@ import {Position} from "../store";
 	<h1 class="mt-4 text-xl font-bold text-teal-400">Positions</h1>
 	<template v-if="selectedSkater">
 		<div class="mt-2 grid grid-cols-9 gap-2 items-center">
-			<select v-model="selectedSkater">
+			<select ref="skaterSelect" @change="onSkaterChange">
 				<option v-for="skater in allSkaters" :value="skater.name">{{ skater.name }}</option>
 			</select>
 			<div class="col-span-1 text-center"><span class="inline-block leading-none text-xl text-teal-400">></span></div>
-			<select v-model="selectedPosition">
+			<select ref="positionSelect" @change="onPositionChange">
 				<option :value="Position.Jammer">{{ Position.Jammer }}</option>
 				<option :value="Position.Pivot">{{ Position.Pivot }}</option>
 				<option :value="Position.Blocker">{{ Position.Blocker }}</option>
 				<option :value="Position.Out">{{ Position.Out }}</option>
 			</select>
 		</div>
-		<button @click="applyChange" class="mt-4 font-bold !bg-zinc-300 !text-zinc-800" :disabled="!isValidChoice">APPLY</button>
-<!--		<p v-if="selectedSkater" class="mt-3 text-center">{{ selectedSkater.name }} <span class="italic text-zinc-400">({{ selectedSkater.position }})</span></p>-->
-<!--		<p v-if="isValidChoice" class="text-center"><span class="italic text-zinc-400">now becomes</span> {{ selectedPosition }}</p>-->
+		<button @click="applyChange" class="mt-4 font-bold !bg-zinc-300 !text-zinc-800" :disabled="!selectedSkaterFull">APPLY</button>
+		<p v-if="selectedSkaterFull" class="mt-3 text-center">{{ selectedSkaterFull.name }} <span class="italic text-zinc-400">({{ selectedSkaterFull.position }})</span></p>
+		<p v-if="selectedSkaterFull" class="text-center"><span class="italic text-zinc-400">now becomes</span> {{ selectedPosition }}</p>
 	</template>
 	
 	<hr class="mt-8 mb-5 opacity-25">
@@ -30,18 +30,18 @@ import {Position} from "../store";
 	<template v-if="selectedSkaterForRole">
 		<h1 class="text-xl font-bold text-teal-400">Roles</h1>
 		<div class="mt-2 grid grid-cols-9 gap-2 items-center">
-			<select v-model="selectedSkaterForRole">
+			<select ref="skaterForRoleSelect" @change="onSkaterForRoleChange">
 				<option v-for="skater in allSkaters" :value="skater.name">{{ skater.name }}</option>
 			</select>
 			<div class="col-span-1 text-center"><span class="inline-block leading-none text-xl text-teal-400">></span></div>
-			<select v-model="selectedRole">
-				<option value="true">Head</option>
-				<option value="false">Not head</option>
+			<select ref="roleSelect" @change="onRoleChange">
+				<option value="head">Head</option>
+				<option value="nothead">Not head</option>
 			</select>
 		</div>
-		<button @click="applyChangeForRole" class="mt-4 font-bold !bg-zinc-300 !text-zinc-800" :disabled="!isValidChoiceForRole">APPLY</button>
-<!--		<p v-if="selectedSkaterForRole" class="mt-3 text-center">{{ selectedSkaterForRole.name }} <span class="italic text-zinc-400">({{ selectedSkaterForRole.isHead ? 'Head' : 'Not head' }})</span></p>-->
-<!--		<p v-if="isValidChoiceForRole" class="text-center"><span class="italic text-zinc-400">now becomes</span> {{ selectedRole ? 'Head' : 'Not head' }}</p>-->
+		<button @click="applyChangeForRole" class="mt-4 font-bold !bg-zinc-300 !text-zinc-800" :disabled="!selectedSkaterForRoleFull">APPLY</button>
+		<p v-if="selectedSkaterForRoleFull" class="mt-3 text-center">{{ selectedSkaterForRoleFull.name }} <span class="italic text-zinc-400">({{ selectedSkaterForRoleFull.isHead ? 'Head' : 'Not head' }})</span></p>
+		<p v-if="selectedSkaterForRoleFull" class="text-center"><span class="italic text-zinc-400">now becomes</span> {{ selectedRole === 'head' ? 'Head' : 'Not head' }}</p>
 	</template>
 </template>
 
@@ -58,7 +58,7 @@ export default {
 			selectedSkater: false,
 			selectedSkaterForRole: false,
 			selectedPosition: Position.Blocker,
-			selectedRole: true,
+			selectedRole: 'head',
 		}
 	},
 	computed: {
@@ -66,11 +66,11 @@ export default {
 		allSkaters () {
 			return this.mainStore.skaters
 		},
-		isValidChoice () {
-			return this.selectedSkater && this.selectedPosition !== ''
+		selectedSkaterFull () {
+			return this.mainStore.getByName(this.selectedSkater)
 		},
-		isValidChoiceForRole () {
-			return this.selectedSkaterForRole && this.selectedRole !== ''
+		selectedSkaterForRoleFull () {
+			return this.mainStore.getByName(this.selectedSkaterForRole)
 		},
 	},
 	mounted () {
@@ -78,13 +78,25 @@ export default {
 		this.selectedSkaterForRole = this.mainStore.skaters[0].name
 	},
 	methods: {
+		onSkaterChange (e) {
+			this.selectedSkater = this.$refs.skaterSelect.value
+		},
+		onPositionChange (e) {
+			this.selectedPosition = this.$refs.positionSelect.value
+		},
 		applyChange () {
 			let s = this.mainStore.getByName(this.selectedSkater)
 			s.position = this.selectedPosition
 		},
+		onSkaterForRoleChange (e) {
+			this.selectedSkaterForRole = this.$refs.skaterForRoleSelect.value
+		},
+		onRoleChange (e) {
+			this.selectedRole = this.$refs.roleSelect.value
+		},
 		applyChangeForRole () {
 			let s = this.mainStore.getByName(this.selectedSkaterForRole)
-			s.isHead = this.selectedRole
+			s.isHead = this.selectedRole === 'head'
 		},
 	}
 }
