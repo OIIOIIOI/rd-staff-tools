@@ -67,13 +67,14 @@ export const useMainStore = defineStore('main', {
 				new Skater("Freak", "123", Position.Blocker),
 				new Skater("Diplo", "8", Position.Blocker),
 				new Skater("Sophie", "99", Position.Blocker),
-				new Skater("Bambi", "456", Position.Blocker),
 				new Skater("Paupo", "19", Position.Blocker, true),
 				new Skater("Vio", "21", Position.Blocker),
+				new Skater("Bambi", "456", Position.Blocker),
+				new Skater("Dodo", "171", Position.Out),
 				// Pivots
 				new Skater("Cam", "817", Position.Pivot),
 				new Skater("BoobZ", "95", Position.Pivot, true),
-				new Skater("Dodo", "171", Position.Pivot),
+				new Skater("Constance", "934", Position.Pivot),
 				new Skater("Steph", "87", Position.Pivot),
 			],
 		}

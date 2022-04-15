@@ -71,7 +71,7 @@ div.name-card {
 			@apply text-xl font-bold leading-none;
 		}
 		p:last-of-type {
-			@apply text-sm;
+			@apply text-xs;
 		}
 	}
 	> .p-count,
